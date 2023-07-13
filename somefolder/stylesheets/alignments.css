@@ -10,9 +10,6 @@
 .w-screen {
     width: 100vh;
 }
-.w-100 {
-    width: 100%;
-}
 .w-50 {
     width: 50;
 }
@@ -66,12 +63,6 @@
 }
 .m-3 {
     margin: 30px;
-}
-.m-4 {
-    margin: 40px;
-}
-.m-5 {
-    margin: 50px;
 }
 
 .p-1 {
