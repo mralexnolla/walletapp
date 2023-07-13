@@ -1,36 +1,32 @@
-:root{
+:root {
     --primary: #003eb3;
-    --secondary: #036970;
+    --secondary: #006d75;
     --white: #fff;
     --black: #000;
-    
 }
 
-/* background colors*/
-
+/* background colors */
 .bg-primary {
     background-color: var(--primary) !important;
 }
-.bg-secondary {
+
+.bg.secondary {
     background-color: var(--secondary) !important;
 }
 
-/* text colors*/
-
+/* text colors */
 .text-primary {
-    color: var(--primary) !important;
+    color:  var(--primary)!important;
 }
+
 .text-secondary {
-    color: var(--secondary) !important;
+    color: var(--secondary)!important;
 }
 
 .text-white {
     color: var(--white) !important;
 }
+
 .text-black {
     color: var(--black) !important;
 }
-
-
-
-

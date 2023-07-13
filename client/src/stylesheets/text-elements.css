@@ -1,17 +1,20 @@
-/*text sizes*/
-
+/* text sizes */
 .text-2xl {
     font-size: 25px !important;
 }
+
 .text-xl {
     font-size: 20px !important;
 }
+
 .text-lg {
     font-size: 18px !important;
 }
+
 .text-md {
     font-size: 16px !important;
 }
+
 .text-sm {
     font-size: 14px !important;
 }
@@ -19,9 +22,11 @@
 .text-center {
     text-align: center;
 }
+
 .text-right {
     text-align: right;
 }
+
 .underline {
     text-decoration: underline;
     cursor: pointer;
