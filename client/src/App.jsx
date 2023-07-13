@@ -3,13 +3,15 @@ import "./stylesheets/form-elements.css"
 import "./stylesheets/custome-components.css"
 import "./stylesheets/alignments.css"
 import "./stylesheets/theme.css"
+import {Button} from "antd"
 
 function App() {
  
 
   return (
-    <div>
+    <div className="bg-primary h-screen">
       Wallet App
+      <Button className="bg-secondary">Submit</Button>
     </div>
   );
 }
