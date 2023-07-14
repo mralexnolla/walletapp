@@ -84,7 +84,7 @@ function Register() {
           </Col>
         </Row>
         <div className="flex justify-end">
-          <button className="primary-contained-btn" type="submit">
+          <button className="bg-secondary primary-contained-btn" type="submit">
             Register
           </button>
         </div>
