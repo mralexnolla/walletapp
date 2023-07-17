@@ -1,11 +1,23 @@
-import { Col, Form, Row } from "antd";
+import { Col, Form, Row, message } from "antd";
 import {useNavigate} from "react-router-dom"
+import { LoginUserApiCall } from "../../apicalls/users";
 
 const Login = () => {
    
   const navigate = useNavigate()  
-  const onFinish = (values) => {
-    console.log("Got value from the form: ", values);
+
+  const onFinish = async (values) => {
+    try {
+      const response = await LoginUserApiCall(values);
+      console.log(response);
+      if(response.success){
+        message.success(response.message)
+      }else{
+        message.error(response.message)
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
   };
 
   return (

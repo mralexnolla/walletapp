@@ -1,18 +1,55 @@
-import { Col, Form, Row } from "antd";
+import { Col, Form, Row, message } from "antd";
 import {useNavigate} from "react-router-dom"
+import { RegisterUserApiCall } from "../../apicalls/users";
 
 function Register() {
-    const navigate = useNavigate()
-    const onFinish = (values) => {
-        console.log("Got value from the form: ", values)
+
+  const navigate = useNavigate();
+
+  const onFinish = async (values) => {
+    try {
+      const response = await RegisterUserApiCall(values); // this is from the apicalls folder
+      console.log(response);
+      if (response.success) {
+        message.success(response.message);
+        navigate("/login");
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
     }
+  };
+
+  /** The unfinish method could also be writen like this 
+     * 
+ const onFinish = async (values) => {
+  try {
+    const response = await axios.post('/api/users/register', values, {
+      headers: {
+        'authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    console.log(response);
+    if (response.data.success) {
+      message.success(response.data.message);
+      navigate('login');
+    } else {
+      message.error(response.data.message);
+    }
+  } catch (error) {
+    message.error(`Issue with REGISTRATION: ${error.response.data}`);
+  }
+};
+     * 
+     */
 
   return (
     <div className="m-5">
       <div className="flex align-center justify-between">
         <h1 className="text-2xl">RAPIDREQUEST - REGISTER</h1>
         <h1 className="text-sm underline" onClick={() => navigate("/login")}>
-            Already a member | Login
+          Already a member | Login
         </h1>
       </div>
       <hr />
@@ -24,7 +61,7 @@ function Register() {
             </Form.Item>
           </Col>
           <Col span={6}>
-            <Form.Item label="Last Name" name="lasttName">
+            <Form.Item label="Last Name" name="lastName">
               <input type="text" />
             </Form.Item>
           </Col>
@@ -34,14 +71,15 @@ function Register() {
             </Form.Item>
           </Col>
           <Col span={6}>
-            <Form.Item label="mobile" name="mobileNumber">
+            <Form.Item label="mobile" name="phone">
               <input type="text" />
             </Form.Item>
           </Col>
 
           <Col span={6}>
-            <Form.Item label="Identification Type" name="identificationType">
+            <Form.Item label="Identification Type" name="idType">
               <select>
+                <option value="" disabled selected >Select the type of ID</option>
                 <option value="NATIONAL ID">National ID</option>
                 <option value="PASSPORT">Passport</option>
                 <option value="DRIVING LICENSE">Driving License</option>
@@ -53,10 +91,7 @@ function Register() {
             </Form.Item>
           </Col>
           <Col span={6}>
-            <Form.Item
-              label="Identification Number"
-              name="identificationNumber"
-            >
+            <Form.Item label="Identification Number" name="idNumber">
               <input type="text" />
             </Form.Item>
           </Col>
@@ -67,7 +102,7 @@ function Register() {
           </Col>
 
           <Col span={24}>
-            <Form.Item label="Address" name="Address">
+            <Form.Item label="Address" name="address">
               <textarea type="text" />
             </Form.Item>
           </Col>
