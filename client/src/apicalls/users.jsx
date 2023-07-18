@@ -17,6 +17,6 @@ export const RegisterUserApiCall = async (payload) => {
     const {data} = await axiosInstance.post("/api/users/register", payload);
     return data;
   } catch (error) {
-    return error.response.data ;
+    return  error.response.data ;
   }
 };

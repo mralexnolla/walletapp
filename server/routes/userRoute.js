@@ -1,108 +1,141 @@
-import express from 'express'
-import { User } from '../models/userModel.js'
-import bcrypt from 'bcryptjs'
+import express from "express";
+import { User } from "../models/userModel.js";
+import bcrypt from "bcryptjs";
 import validator from "validator";
-import  jwt  from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
-const router = express.Router()
+const router = express.Router();
 
 //register user
-router.post('/register', async (req, res) => {
-    try {
-         //validation
-         if (!req.body.firstName) return res.json({ message: `First Name cannot be empty` });
-         if (!req.body.lastName)  return res.json({ message: `Last Name cannot be empty` });
-         if (!req.body.email) return res.json({ message: `Email cannot be empty` });
-         if (!req.body.phone) return res.json({ message: `Phone cannot be empty` });
-         if (!req.body.idNumber) return res.json({ message: `IdNumber cannot be empty` });
-         if (!req.body.tin) return res.json({ message: `Tax ID cannot be empty` });
-         if (!req.body.address) return res.json({ message: `Address cannot be empty` });
-         if (!req.body.password) return res.json({ message: `Password cannot be empty` });
-         
-         //validating email and password format
-         if (!validator.isEmail(req.body.email)) {
-           return res.send({ success: false, message: "Not valid email" });
-         }
-         if (!validator.isStrongPassword(req.body.password)) {
-           return res.send({ success: false, message: "Not valid password" });
-         }
+router.post("/register", async (req, res) => {
+  try {
+    //validation
+    if (!req.body.firstName)
+      return res.json({ message: `First Name cannot be empty` });
+    if (!req.body.lastName)
+      return res.json({ message: `Last Name cannot be empty` });
+    if (!req.body.email) return res.json({ message: `Email cannot be empty` });
+    if (!req.body.phone) return res.json({ message: `Phone cannot be empty` });
+    if (!req.body.idNumber)
+      return res.json({ message: `IdNumber cannot be empty` });
+    if (!req.body.idType) return res.json({ message: `Choose the ID type` });
+    if (!req.body.tin) return res.json({ message: `Tax ID cannot be empty` });
+    if (!req.body.address)
+      return res.json({ message: `Address cannot be empty` });
+    if (!req.body.password)
+      return res.json({ message: `Password cannot be empty` });
 
-        // check if user already exist
-        const userExist = await User.findOne({email: req.body.email})
-        if(userExist){
-            return res.send({ 
-                success: false,
-                message: "user already exist" });
-                      
-        }
-
-        // hash password
-        const salt = await bcrypt.genSalt(10)
-        const hashedpassword = await bcrypt.hash(req.body.password, salt)
-        req.body.password = hashedpassword;
-        
-        //sending new user to database 
-        const newUser = new User(req.body);
-        await newUser.save()
-
-        res.status(200)
-           .send({
-                message: `Users created successfully`,
-                data: newUser,
-                success: true
-            })
-            
-        
-    } catch (error) {
-        res.status(400)
-           .send({
-                success: false,
-                message: `error with registration ${error}`
-            })
+    //validating email and password format
+    if (!validator.isEmail(req.body.email)) {
+      return res.send({ success: false, message: "Not valid email" });
     }
-})
+    if (!validator.isStrongPassword(req.body.password)) {
+      return res.send({ success: false, message: "Not valid password" });
+    }
+
+    // check if user already exist
+    const userExist = await User.findOne({ email: req.body.email });
+    if (userExist) {
+      return res.send({
+        success: false,
+        message: "user already exist",
+      });
+    }
+
+    //check if phone number already exist
+    const phoneExist = await User.findOne({ phone: req.body.phone });
+    if (phoneExist) {
+      return res.send({
+        success: false,
+        message: "Phone number already exist",
+      });
+    }
+
+    //checking idtype with the id
+    const idtypeExist = await User.findOne({ idType: req.body.idType });
+    const IDnumberExist = await User.findOne({ idNumber: req.body.idNumber });
+    
+    console.log(idtypeExist);
+
+    if (idtypeExist && IDnumberExist) {
+      return res.send({
+        success: false,
+        message: "This ID already exists",
+      });
+    }
+    
+    //check if tin already exist
+    const tinExist = await User.findOne({ tin: req.body.tin });
+    if(tinExist){
+        return res.send({
+            success: false,
+            message: "This Tax Identification Number already exist"
+        })
+    }
+
+
+    // hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedpassword = await bcrypt.hash(req.body.password, salt);
+    req.body.password = hashedpassword;
+
+    //sending new user to database
+    const newUser = new User(req.body);
+    await newUser.save();
+
+    res.status(200).send({
+      message: `Users created successfully`,
+      data: newUser,
+      success: true,
+    });
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      message: `error with registration ${error}`,
+    });
+  }
+});
 
 //login user
-router.post('/login', async (req, res) => {
-    try {
-        if (!req.body.email) return res.json({ message: `Email cannot be empty` });
-        if (!req.body.password)return res.json({ message: `Password cannot be empty` });
-        
-        // check if user Exist
-        const userExist = await User.findOne({ email : req.body.email});
-        if (!userExist) {
-          return res.send({
-            success: false,
-            message: "User does not exist please register",
-          });
-        }
+router.post("/login", async (req, res) => {
+  try {
+    if (!req.body.email) return res.json({ message: `Email cannot be empty` });
+    if (!req.body.password)
+      return res.json({ message: `Password cannot be empty` });
 
-        //check if password is correct
-        const match = await bcrypt.compare(req.body.password, userExist.password)
-        if(!match){
-            return res.send({
-                success: false,
-                message: "invalid password"
-            })
-        }
-
-        //generate token
-        const token = jwt.sign({ userId: userExist._id }, process.env.SECRET, {
-          expiresIn: "5min",
-        });
-        res.send({
-            success: true,
-            message: "user logged in successfully",
-            token: token
-        })
-        
-    } catch (error) {
-        res.send({
-            success: false,
-            message: `login failed due to the following error ${error.message}`,
-
-        })
+    // check if user Exist
+    const userExist = await User.findOne({ email: req.body.email });
+    if (!userExist) {
+      return res.send({
+        success: false,
+        message: "User does not exist please register",
+      });
     }
-})
 
-export {router as userRouter}
+    //check if password is correct
+    const match = await bcrypt.compare(req.body.password, userExist.password);
+    if (!match) {
+      return res.send({
+        success: false,
+        message: "invalid password",
+      });
+    }
+
+    //generate token
+    const token = jwt.sign({ userId: userExist._id }, process.env.SECRET, {
+      expiresIn: "5min",
+    });
+    res.send({
+      success: true,
+      message: "user logged in successfully",
+      token: token,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: `login failed due to the following error ${error.message}`,
+    });
+  }
+});
+
+export { router as userRouter };
