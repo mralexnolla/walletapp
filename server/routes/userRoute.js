@@ -3,6 +3,7 @@ import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import validator from "validator";
 import jwt from "jsonwebtoken";
+import { decrypt } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -128,12 +129,30 @@ router.post("/login", async (req, res) => {
     res.send({
       success: true,
       message: "user logged in successfully",
-      token: token,
+      data: token,
     });
   } catch (error) {
     res.send({
       success: false,
       message: `login failed due to the following error ${error.message}`,
+    });
+  }
+});
+
+//get user infor
+router.post("/get-user-info",decrypt, async (req, res) => {
+  try {
+    const user = await User.findById(req.body.userId);
+    user.password = "";
+    res.send({
+      message: "User info fetched successfully",
+      data: user,
+      success: true,
+    });
+  } catch (error) {
+    res.send({
+      message: error.message,
+      success: false,
     });
   }
 });

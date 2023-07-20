@@ -33,6 +33,10 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
+    avlbal: {
+      type: Number,
+      default: 0
+    },
     address: {
       type: String,
       required: true,

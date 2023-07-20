@@ -20,3 +20,13 @@ export const RegisterUserApiCall = async (payload) => {
     return  error.response.data ;
   }
 };
+
+//get user info
+export const GetUserInfo = async () => {
+    try {
+      const { data } = await axiosInstance.post("/api/users/get-user-info");
+      return data
+    } catch (error) {
+      return error.response.data
+    }
+}

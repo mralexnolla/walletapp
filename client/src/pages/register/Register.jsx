@@ -1,4 +1,4 @@
-import { Col, Form, Row, message } from "antd";
+import { Col, Form, Row, message, Select } from "antd";
 import {useNavigate} from "react-router-dom"
 import { RegisterUserApiCall } from "../../apicalls/users";
 
@@ -54,7 +54,11 @@ function Register() {
         </h1>
       </div>
       <hr />
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form
+        layout="vertical"
+        onFinish={onFinish}
+        initialValues={{ idType: "select_id_type" }}
+      >
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           <Col span={6}>
             <Form.Item label="First Name" name="firstName">
@@ -79,8 +83,11 @@ function Register() {
 
           <Col span={6}>
             <Form.Item label="Identification Type" name="idType">
-              <select>
-                <option value="" disabled selected >Select the type of ID</option>
+              {/*
+            <select defaultValue="select_id_type">
+                <option value="select_id_type" disabled>
+                  Select the type of ID
+                </option>
                 <option value="NATIONAL ID">National ID</option>
                 <option value="PASSPORT">Passport</option>
                 <option value="DRIVING LICENSE">Driving License</option>
@@ -89,6 +96,46 @@ function Register() {
                 <option value="NON CITIZEN ID">Non Citizen ID</option>
                 <option value="NHIS">National Health Insurance ID</option>
               </select>
+              */}
+
+              <Select
+                style={{ width: 255, border: "1px solid #595959" }}
+                options={[
+                  {
+                    value: "select_id_type",
+                    label: "Select the type of ID",
+                    disabled: true,
+                  },
+                  {
+                    value: "NATIONAL ID",
+                    label: "National ID",
+                  },
+                  {
+                    value: "PASSPORT",
+                    label: "Passport",
+                  },
+                  {
+                    value: "DRIVING LICENSE",
+                    label: "Driving License",
+                  },
+                  {
+                    value: "VOTERS CARD",
+                    label: "Voters Card",
+                  },
+                  {
+                    value: "SOCIAL CARD",
+                    label: "Social Security Card",
+                  },
+                  {
+                    value: "NON CITIZEN ID",
+                    label: "Non Citizen ID",
+                  },
+                  {
+                    value: "NHIS",
+                    label: "National Health Insurance ID",
+                  },
+                ]}
+              />
             </Form.Item>
           </Col>
           <Col span={6}>
