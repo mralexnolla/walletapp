@@ -5,22 +5,30 @@ import { useState, useEffect } from "react";
 import { message } from "antd";
 import { GetUserInfo } from "../apicalls/users";
 import {useNavigate} from "react-router-dom"
-
+import {useSelector, useDispatch} from "react-redux"
+import { setUser } from "../redux/userSlice";
+import { showLoading, hideLoading } from "../redux/loadersSlice";
 
 function ProtectedRoute(props) {
-   const [userdata, setUserData] = useState(null);
+  
+  const dispatch = useDispatch()
+  const user = useSelector((store) => store.user.user)
+  console.log(user)
 
    const navigate = useNavigate()
 
    const getData = async () => {
      try {
+      dispatch(showLoading())
        const response = await GetUserInfo();
+       dispatch(hideLoading())
        if (response.success) {
-         setUserData(response.data);
+         dispatch(setUser(response.data));
        }else{
         message.error(response.message)
        }
      } catch (error) {
+      dispatch(hideLoading())
        navigate("/login")
        message.error(error.message);
      }
@@ -28,7 +36,7 @@ function ProtectedRoute(props) {
    
    useEffect(() => {
     if(localStorage.getItem("token")){
-        if(!userdata){
+        if(!user){
             getData();
         }
        
@@ -39,7 +47,10 @@ function ProtectedRoute(props) {
    }, []);
 
   return (
-    <div>{props.children}</div>
+   user && <div>
+        {user.email}
+       {props.children}
+   </div>
   )
 }
 

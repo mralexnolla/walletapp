@@ -1,14 +1,20 @@
 import { Col, Form, Row, message } from "antd";
 import {useNavigate} from "react-router-dom"
 import { LoginUserApiCall } from "../../apicalls/users";
+import { showLoading, hideLoading } from "../../redux/loadersSlice";
+import {useDispatch} from "react-redux"
 
 const Login = () => {
+
+  const dispatch = useDispatch()
    
   const navigate = useNavigate()  
 
   const onFinish = async (values) => {
     try {
+      dispatch(showLoading())
       const response = await LoginUserApiCall(values);
+      dispatch(hideLoading())
       console.log(response);
       if(response.success){
         message.success(response.message)
@@ -18,6 +24,7 @@ const Login = () => {
         message.error(response.message)
       }
     } catch (error) {
+      dispatch(hideLoading())
       message.error(error.message);
     }
   };

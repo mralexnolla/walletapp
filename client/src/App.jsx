@@ -9,13 +9,18 @@ import Register from "./pages/register/Register"
 import Home from "./pages/Home/Home"
 import ProtectedRoute from "./components/ProtectedRoute"
 import PublicRoute from "./components/PublicRoute"
+import Loader from "./components/Loader"
+import {useSelector} from 'react-redux'
 
 
 function App() {
- 
-
+  
+  const loading = useSelector((store) => store.loading.loading);
+   
   return (
     <div>
+      {loading && <Loader />}
+
       <Routes>
         <Route
           path="/login"

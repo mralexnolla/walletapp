@@ -1,14 +1,20 @@
 import { Col, Form, Row, message, Select } from "antd";
 import {useNavigate} from "react-router-dom"
 import { RegisterUserApiCall } from "../../apicalls/users";
+import { showLoading, hideLoading } from "../../redux/loadersSlice";
+import { useDispatch } from "react-redux";
 
 function Register() {
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
     try {
+      dispatch(showLoading())
       const response = await RegisterUserApiCall(values); // this is from the apicalls folder
+      dispatch(hideLoading())
       console.log(response);
       if (response.success) {
         message.success(response.message);
@@ -17,6 +23,7 @@ function Register() {
         message.error(response.message);
       }
     } catch (error) {
+      dispatch(hideLoading())
       console.log(error)
       message.error(error.message);
     }
