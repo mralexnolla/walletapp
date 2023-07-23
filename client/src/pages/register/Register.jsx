@@ -66,29 +66,29 @@ function Register() {
         onFinish={onFinish}
         initialValues={{ idType: "select_id_type" }}
       >
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-          <Col span={6}>
+        <Row gutter={{ xs: 8, sm: 28, md: 27, lg: 32 }}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="First Name" name="firstName">
               <input type="text" />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="Last Name" name="lastName">
               <input type="text" />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="Email" name="email">
               <input type="text" />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="mobile" name="phone">
               <input type="text" />
             </Form.Item>
           </Col>
 
-          <Col span={6}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="Identification Type" name="idType">
               {/*
             <select defaultValue="select_id_type">
@@ -145,29 +145,29 @@ function Register() {
               />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="Identification Number" name="idNumber">
               <input type="text" />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="Tax Identification Number" name="tin">
               <input type="text" />
             </Form.Item>
           </Col>
 
-          <Col span={24}>
+          <Col span={24} xs={24} sm={24} md={24} lg={24}>
             <Form.Item label="Address" name="address">
               <textarea type="text" />
             </Form.Item>
           </Col>
 
-          <Col span={6}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="Password" name="password">
               <input type="password" />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={6} xs={24} sm={12} md={8} lg={6}>
             <Form.Item label="Confirm Password" name="confirmPassword">
               <input type="password" />
             </Form.Item>

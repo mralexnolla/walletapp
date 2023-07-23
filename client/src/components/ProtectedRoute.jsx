@@ -8,12 +8,12 @@ import {useNavigate} from "react-router-dom"
 import {useSelector, useDispatch} from "react-redux"
 import { setUser } from "../redux/userSlice";
 import { showLoading, hideLoading } from "../redux/loadersSlice";
+import DefaultLayout from "./DefaultLayout";
 
 function ProtectedRoute(props) {
   
   const dispatch = useDispatch()
   const user = useSelector((store) => store.user.user)
-  console.log(user)
 
    const navigate = useNavigate()
 
@@ -48,8 +48,9 @@ function ProtectedRoute(props) {
 
   return (
    user && <div>
-        {user.email}
-       {props.children}
+       <DefaultLayout>
+          {props.children}
+       </DefaultLayout>
    </div>
   )
 }
