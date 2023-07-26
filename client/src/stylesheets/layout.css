@@ -39,7 +39,7 @@
 .active-menu-item {
   border: 2px solid var(--active);
   border-radius: 3px;
-  color: green;
+  color: #cf1322;
   padding: 3px 5px;
 }
 
