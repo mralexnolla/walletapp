@@ -37,10 +37,10 @@
 
 
 .active-menu-item {
-  border: 2px solid var(--active);
+  /* border: 2px solid var(--active); */
   border-radius: 3px;
   color: #cf1322;
-  padding: 3px 5px;
+  /* padding: 3px 5px;  */
 }
 
 .body {
@@ -55,5 +55,5 @@
 }
 
 .content {
-    padding: 15px;
+    padding-top: 15px;
 }

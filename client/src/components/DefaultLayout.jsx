@@ -35,7 +35,7 @@ function DefaultLayout({ children }) {
       title: "Profile",
       icon: <i className="ri-user-3-line"></i>,
       onClick: () => navigate("/profile"),
-      path: "profile",
+      path: "/profile",
     },
     {
       title: "Logout",
@@ -77,7 +77,7 @@ function DefaultLayout({ children }) {
       title: "Profile",
       icon: <i className="ri-user-3-line"></i>,
       onClick: () => navigate("/profile"),
-      path: "profile",
+      path: "/profile",
     },
     {
       title: "Logout",
@@ -102,6 +102,7 @@ function DefaultLayout({ children }) {
           {menuToRender.map((item,idx) => {
 
             const isActive = window.location.pathname === item.path;
+            console.log(window.location.pathname);
 
             return (
               <div
@@ -119,6 +120,8 @@ function DefaultLayout({ children }) {
 
       {/** The body  */}
       <div className="body">
+      
+        {/** Body header */}
         <div className="header flex justify-between align-center">
           <div>
             {collapsed && (
@@ -145,6 +148,8 @@ function DefaultLayout({ children }) {
             </h1>
           </div>
         </div>
+
+        {/** Body Content */}
         <div className="content"> {children}</div>
       </div>
     </div>

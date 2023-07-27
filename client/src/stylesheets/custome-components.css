@@ -22,6 +22,10 @@
     animation: loader-anim 1s linear infinite;
 }
 
+table {
+    border: 1px solid var(--button);
+}
+
 @keyframes loader-anim {
     0% {
         transform: rotate(0deg);
