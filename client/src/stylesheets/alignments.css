@@ -19,6 +19,10 @@
     width: 50%;
 }
 
+.w-25 {
+    width: 25%;
+}
+
 .w-400 {
     width: 400px;
 }
@@ -74,6 +78,11 @@
 .m-2 {
     margin: 20px;
 }
+
+.mt-1 {
+    margin-top: 10px;
+}
+
 .mt-2 {
     margin-top: 20px;
 }

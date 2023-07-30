@@ -4,6 +4,7 @@ import colors from "colors";
 import dotenv from "dotenv";
 import cors from "cors";
 import { userRouter } from "./routes/userRoute.js";
+import { transactionRouter } from "./routes/transactionRoute.js";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 //routes
 app.use("/api/users", userRouter);
+app.use("/api/transactions", transactionRouter);
 
 //connect to the DB
 mongoose
