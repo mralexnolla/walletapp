@@ -6,9 +6,16 @@ import validator from "validator";
 
 const router = express.Router();
 
-const getUserIdByEmail = (email) => {
-  const user = User.findOne({ email });
-  return user ? user._id : "";
+const getUserIdByEmail = async (email) => {
+  try {
+    const user = await User.findOne({ email });
+    return user ? user._id : "";
+  } catch (error) {
+    console.error("Error fetching user by email:", error);
+    return "";
+  }
+  
+  
 };
 
 //transfer money from one account to another
@@ -24,6 +31,16 @@ router.post("/fund-transfer", decrypt, async (req, res) => {
 
     const sendId = await getUserIdByEmail(req.body.sender);
     const receiverId = await getUserIdByEmail(req.body.receiver);
+
+    const maker = await User.findOne({ email: req.body.sender });
+
+    //check for availablebalance
+    if (req.body.amount > maker.avlbal) {
+      return res.send({
+        message: "Insuficient Funds",
+        success: false,
+      });
+    }
 
     //decrease sender balance ie debit sender.
     await User.findByIdAndUpdate(sendId, {

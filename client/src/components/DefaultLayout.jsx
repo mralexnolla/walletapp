@@ -102,7 +102,7 @@ function DefaultLayout({ children }) {
           {menuToRender.map((item,idx) => {
 
             const isActive = window.location.pathname === item.path;
-            console.log(window.location.pathname);
+            //console.log(window.location.pathname);
 
             return (
               <div
