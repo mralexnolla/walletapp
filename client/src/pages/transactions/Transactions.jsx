@@ -1,20 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from "react";
 import PageTitle from "../../components/PageTitle";
-import {Table} from "antd";
+import {Table, message} from "antd";
 import FundTransferModal from "./FundTransferModal";
+import { GetUserTransactionsApiCall } from "../../apicalls/transactions";
+import {useDispatch, useSelector} from "react-redux"
+import { showLoading, hideLoading } from "../../redux/loadersSlice";
+import { useEffect } from "react";
+import moment from "moment"
 
 const Transactions = () => {
 
   const [showFtModal, setShowFtModal] = useState(false)
+  const [data, setData] = useState([])
+
+  const dispatch = useDispatch()
+  const user = useSelector(store => store.user.user)
+  
    
   const columns = [
-    {
-      title: "Transaction ID",
-      dataIndex: "transactionId",
-    },
+    // {
+    //   title: "Transaction ID",
+    //   dataIndex: "_id",
+    // },
     {
       title: "Date",
-      dataIndex: "date",
+      dataIndex: "createdAt",
+      render: (text, record) => {
+        return moment(record.createdAt).format("DD-MM-YYYY hh:mm:ss A");
+      }
     },
     {
       title: "Sender",
@@ -27,6 +41,9 @@ const Transactions = () => {
     {
       title: "Type",
       dataIndex: "type",
+      render: (text, record) => {
+        return record.sender == user.email ? "Dr" : "Cr"
+      }
     },
     {
       title: "Receiver",
@@ -45,6 +62,35 @@ const Transactions = () => {
       dataIndex: "description",
     },
   ];
+  
+  const getData = async () => {
+    try {
+      dispatch(showLoading)
+
+      const senderEmail = user.email
+      const receiverEmail = user.email
+
+      const response = await GetUserTransactionsApiCall(senderEmail, receiverEmail);
+      const txnsData = response.data.data
+      if (response.data.success) {
+        setData(txnsData);
+      }
+      dispatch(hideLoading)
+    } catch (error) {
+      dispatch(hideLoading)
+      message.error(error.message)
+    }
+   
+  }
+
+  useEffect(() => {
+    getData() 
+  },[])
+
+  console.log(data)
+  
+
+
 
   return (
     <div>
@@ -62,7 +108,7 @@ const Transactions = () => {
         </div>
       </div>
 
-      <Table dataSource={[]} columns={columns} className="mt-2 table" />
+      <Table dataSource={data} columns={columns} className="mt-2 table" rowKey="_id" />
 
       {showFtModal && <FundTransferModal showFtModal={showFtModal} setShowFtModal={setShowFtModal} />}
     </div>

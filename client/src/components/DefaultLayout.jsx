@@ -93,21 +93,18 @@ function DefaultLayout({ children }) {
   const menuToRender = user.isAdmin ? adminMenu : userMenu;
    
   return (
-    
     <div className="layout">
-
       {/** the side bar */}
       <div className="sidebar">
         <div className="menu">
-          {menuToRender.map((item,idx) => {
-
+          {menuToRender.map((item, idx) => {
             const isActive = window.location.pathname === item.path;
             //console.log(window.location.pathname);
 
             return (
               <div
                 key={item + `${idx}`}
-                className={`menu-item ${isActive ? "active-menu-item": ""}`}
+                className={`menu-item ${isActive ? "active-menu-item" : ""}`}
                 onClick={item.onClick}
               >
                 {item.icon}
@@ -120,19 +117,18 @@ function DefaultLayout({ children }) {
 
       {/** The body  */}
       <div className="body">
-      
         {/** Body header */}
         <div className="header flex justify-between align-center">
           <div>
             {collapsed && (
               <i
-                className="ri-close-line"
+                className="ri-menu-2-line"
                 onClick={() => setCollapsed(false)}
               ></i>
             )}
             {!collapsed && (
-              <i
-                className="ri-menu-2-line"
+              <i 
+                className="ri-close-line"
                 onClick={() => setCollapsed(true)}
               ></i>
             )}

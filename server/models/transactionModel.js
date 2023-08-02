@@ -14,10 +14,10 @@ const transactionSchema = new Schema(
       type: String,
       required: true,
     },
-    type: {
-      type: String,
-      required: true,
-    },
+    // type: {
+    //   type: String,
+    //   required: true,
+    // },
     reference: {
       type: String,
       required: true,

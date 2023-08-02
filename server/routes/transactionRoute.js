@@ -32,10 +32,10 @@ router.post("/fund-transfer", decrypt, async (req, res) => {
     const sendId = await getUserIdByEmail(req.body.sender);
     const receiverId = await getUserIdByEmail(req.body.receiver);
 
-    const maker = await User.findOne({ email: req.body.sender });
+    const sender = await User.findOne({ email: req.body.sender });
 
     //check for availablebalance
-    if (req.body.amount > maker.avlbal) {
+    if (req.body.amount > sender.avlbal) {
       return res.send({
         message: "Insuficient Funds",
         success: false,
@@ -104,5 +104,28 @@ router.post("/verify-accout", decrypt, async (req, res) => {
     });
   }
 });
+
+// get all transactions for a user
+
+router.post("/get-txn-by-users", decrypt, async (req, res) => {
+  try {
+    
+    const transactions = await Transaction.find({
+      $or: [{ sender: req.body.sender }, { receiver: req.body.receiver }],
+    });
+
+    res.send({
+      message: "Transactions fetched",
+      data: transactions,
+      success:true
+    })
+  } catch (error) {
+    res.send({
+      message: "Failed to fetch transactions",
+      data: error.message,
+      success: false
+    })
+  }
+})
 
 export { router as transactionRouter };

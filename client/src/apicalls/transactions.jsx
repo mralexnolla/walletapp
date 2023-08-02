@@ -11,11 +11,26 @@ export const VerifyAccountApiCall = async (payload) => {
 }
 
 // transfer funds
-export const TransferFunds = async (payload) => {
+export const TransferFundsApiCall = async (payload) => {
     try {
         const data = await axiosInstance.post("/api/transactions/fund-transfer", payload);
         return data
     } catch (error) {
         return `Failed transfer: ${error.response.data}`
+    }
+}
+
+// get all transaction for a user
+export const GetUserTransactionsApiCall = async (sender, receiver) => {
+    try {
+        const data = await axiosInstance.post("/api/transactions/get-txn-by-users",
+          {
+            sender: sender,
+            receiver: receiver,
+          }
+        );
+        return data
+    } catch (error) {
+        return error.response.data
     }
 }

@@ -5,7 +5,7 @@ import { Form, Input, Modal, InputNumber, message } from "antd";
 import { useState } from "react";
 import {useDispatch, useSelector} from 'react-redux'
 import { showLoading, hideLoading } from "../../redux/loadersSlice";
-import { VerifyAccountApiCall, TransferFunds } from "../../apicalls/transactions";
+import { VerifyAccountApiCall, TransferFundsApiCall } from "../../apicalls/transactions";
 import {generateReference} from "../../referengenerator/randomgenerator"
 
 const FundTransferModal = ({ showFtModal, setShowFtModal, reloadData }) => {
@@ -46,18 +46,19 @@ const FundTransferModal = ({ showFtModal, setShowFtModal, reloadData }) => {
     }
 
     const onFinish = async (values) => {
+      console.log(values)
       try {
         dispatch(showLoading)
         const payload = {
           ...values,
           sender: user.email,
-          type: "Dr",
+          //type: "Dr",
           reference: generateReference(),
           status: "success",
         };
 
 
-        const response = await TransferFunds(payload)
+        const response = await TransferFundsApiCall(payload);
         if(response.data.success){
           setShowFtModal(false)
           message.success(response.data.message);
