@@ -87,7 +87,6 @@ const Transactions = () => {
     getData() 
   },[])
 
-  console.log(data)
   
 
 

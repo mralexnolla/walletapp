@@ -26,6 +26,10 @@ table {
     border: 1px solid var(--button);
 }
 
+.br-3 {
+    border-radius: 3px;
+}
+
 @keyframes loader-anim {
     0% {
         transform: rotate(0deg);

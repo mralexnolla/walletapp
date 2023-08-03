@@ -15,6 +15,10 @@
     width: 100%;
 }
 
+.w-75 {
+    width: 90%
+}
+
 .w-50 {
     width: 50%;
 }
@@ -34,6 +38,10 @@
 
 .flex-col {
     flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
 }
 
 .justify-center {
