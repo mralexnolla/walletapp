@@ -66,6 +66,35 @@ router.post("/fund-transfer", decrypt, async (req, res) => {
   }
 });
 
+//cash deposite   <<<==========
+
+router.post("/cash-deposite", decrypt, async (req, res) => {
+  try {
+
+    const depositeTransaction = new Transaction(req.body)
+    depositeTransaction.save()
+
+    const receiverId = await getUserIdByEmail(req.body.receiver)
+
+    await User.findByIdAndUpdate(receiverId,{
+      $inc: {avlbal: req.body.amount}
+    } );
+
+    res.send({
+      message: "Transaction Successfull",
+      data: depositeTransaction,
+      success: true
+    });
+    
+  } catch (error) {
+    res.send({
+      message: "Transaction failed",
+      data: error.message,
+      success: false
+    })
+  }
+});
+
 // verify the receiver account
 router.post("/verify-accout", decrypt, async (req, res) => {
   try {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from "react";
 import PageTitle from "../../components/PageTitle";
@@ -8,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux"
 import { showLoading, hideLoading } from "../../redux/loadersSlice";
 import { useEffect } from "react";
 import moment from "moment"
+import DepositeModal from "./DepositeModal";
 
 const Transactions = () => {
 
@@ -16,6 +18,8 @@ const Transactions = () => {
 
   const dispatch = useDispatch()
   const user = useSelector(store => store.user.user)
+
+  const [showDepositeModal, setShowDepositeModal] = useState(false)
   
    
   const columns = [
@@ -97,7 +101,12 @@ const Transactions = () => {
         <PageTitle title="Transactions" />
 
         <div className="flex gap-1">
-          <div className="primary-outlined-btn">Deposite</div>
+          <div
+            className="primary-outlined-btn"
+            onClick={() => setShowDepositeModal(true)}
+          >
+            Deposite
+          </div>
           <div
             className="primary-contained-btn"
             onClick={() => setShowFtModal(true)}
@@ -107,9 +116,26 @@ const Transactions = () => {
         </div>
       </div>
 
-      <Table dataSource={data} columns={columns} className="mt-2 table" rowKey="_id" />
+      <Table
+        dataSource={data}
+        columns={columns}
+        className="mt-2 table"
+        rowKey="_id"
+      />
 
-      {showFtModal && <FundTransferModal showFtModal={showFtModal} setShowFtModal={setShowFtModal} />}
+      {showFtModal && (
+        <FundTransferModal
+          showFtModal={showFtModal}
+          setShowFtModal={setShowFtModal}
+        />
+      )}
+
+      {showDepositeModal && (
+        <DepositeModal
+          showDepositeModal={showDepositeModal}
+          setShowDepositeModal={setShowDepositeModal}
+        />
+      )}
     </div>
   );
 };

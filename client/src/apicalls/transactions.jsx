@@ -20,6 +20,17 @@ export const TransferFundsApiCall = async (payload) => {
     }
 }
 
+// cash deposite to wallet
+
+export const CashDepositeApiCall = async (payload) => {
+    try {
+        const data  = await axiosInstance.post("/api/transactions/cash-deposite", payload)
+        return data
+    } catch (error) {
+        return `Failed deposite: ${error.response.data}`
+    }
+}
+
 // get all transaction for a user
 export const GetUserTransactionsApiCall = async (sender, receiver) => {
     try {
@@ -34,3 +45,5 @@ export const GetUserTransactionsApiCall = async (sender, receiver) => {
         return error.response.data
     }
 }
+
+
