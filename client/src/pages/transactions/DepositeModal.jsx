@@ -16,6 +16,8 @@ const DepositeModal = ({showDepositeModal, setShowDepositeModal}) => {
     const user = useSelector((store) => store.user.user);
     const dispatch = useDispatch()
 
+    console.log(import.meta.env.VITE_PUBLICKEY);
+
     const publicKey = "";
     const currency = "GHS";
     const [amount, setAmount] = useState(0); // Remember, set in kobo!
