@@ -32,7 +32,7 @@ const Transactions = () => {
       dataIndex: "createdAt",
       render: (text, record) => {
         return moment(record.createdAt).format("DD-MM-YYYY hh:mm:ss A");
-      }
+      },
     },
     {
       title: "Sender",
@@ -41,13 +41,14 @@ const Transactions = () => {
     {
       title: "Amount",
       dataIndex: "amount",
+      render: (amount) => `GHS ${amount}`,
     },
     {
       title: "Type",
       dataIndex: "type",
       render: (text, record) => {
-        return record.sender == user.email ? "Dr" : "Cr"
-      }
+        return record.sender == user.email ? "Dr" : "Cr";
+      },
     },
     {
       title: "Receiver",

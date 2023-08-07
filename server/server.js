@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { userRouter } from "./routes/userRoute.js";
 import { transactionRouter } from "./routes/transactionRoute.js";
+import { requestRouter } from "./routes/requestsRoute.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors());
 //routes
 app.use("/api/users", userRouter);
 app.use("/api/transactions", transactionRouter);
+app.use("/api/requests", requestRouter)
 
 //connect to the DB
 mongoose
