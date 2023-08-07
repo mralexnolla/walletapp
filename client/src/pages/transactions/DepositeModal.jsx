@@ -16,7 +16,7 @@ const DepositeModal = ({showDepositeModal, setShowDepositeModal}) => {
     const user = useSelector((store) => store.user.user);
     const dispatch = useDispatch()
 
-    const publicKey = "";
+    const publicKey = "pk_test_a129361c763ddc3014731a3687aa6ae201e6bbd1";
     const currency = "GHS";
     const [amount, setAmount] = useState(0); // Remember, set in kobo!
     const [email, setEmail] = useState(user.email);
