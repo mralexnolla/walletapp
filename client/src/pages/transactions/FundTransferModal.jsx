@@ -99,18 +99,25 @@ const FundTransferModal = ({ showFtModal, setShowFtModal, reloadData }) => {
 
           {isVerified && <div className="success-bg">{errorMessage}</div>}
 
-          {!isVerified && errorMessage && <div className="error-bg">{errorMessage}</div>}
+          {!isVerified && errorMessage && (
+            <div className="error-bg">{errorMessage}</div>
+          )}
 
           <Form.Item
             label="Amount"
             name="amount"
-            initialValue={0}
+            initialValue={3}
             rules={[
               { required: true, message: "Please enter the amount" },
               {
                 type: "number",
                 max: user.avlbal,
                 message: "Insuficient Balance",
+              },
+              {
+                type: "number",
+                min: 3,
+                message: "Minimum amount is Ghs 3",
               },
             ]}
           >

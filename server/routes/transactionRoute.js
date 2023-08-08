@@ -15,7 +15,7 @@ const getUserIdByEmail = async (email) => {
     return "";
   }
   
-  
+
 };
 
 //transfer money from one account to another
@@ -40,6 +40,14 @@ router.post("/fund-transfer", decrypt, async (req, res) => {
         message: "Insuficient Funds",
         success: false,
       });
+    }
+
+    //check that amount is not less than 3
+    if(req.body.amount < 3){
+      return res.send({
+        message: "Minimum amount is Ghs 3",
+        success: false
+      })
     }
 
     //decrease sender balance ie debit sender.

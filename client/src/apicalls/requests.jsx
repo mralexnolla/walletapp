@@ -22,3 +22,13 @@ export const SendRequest = async (payload) => {
         return error.response.data
     }
 }
+
+//update request status
+export const UpdateRequestStatus = async (request) => {
+    try {
+        const data = await axiosInstance.post("/api/requests/update-request-status", request)
+        return data
+    } catch (error) {
+        return error.response.data
+    }
+}
