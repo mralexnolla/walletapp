@@ -104,7 +104,7 @@ const RequestModal = ({ showReqModal, setShowReqModal, reloadData }) => {
           <Form.Item
             label="Amount"
             name="amount"
-            initialValue={0}
+            initialValue={5}
             rules={[
               { required: true, message: "Please enter the amount" },
               {
@@ -112,6 +112,11 @@ const RequestModal = ({ showReqModal, setShowReqModal, reloadData }) => {
                 max: user.avlbal,
                 message: "Insuficient Balance",
               },
+              {
+                type: "number",
+                min: 5,
+                message: "Minimum amount to send is Ghs 5"
+              }
             ]}
           >
             <InputNumber style={{ width: "150px" }} min={0} />

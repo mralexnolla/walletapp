@@ -18,7 +18,7 @@ const DepositeModal = ({showDepositeModal, setShowDepositeModal}) => {
 
     console.log(import.meta.env.VITE_PUBLICKEY);
 
-    const publicKey = "";
+    const publicKey = "pk_test_a129361c763ddc3014731a3687aa6ae201e6bbd1";
     const currency = "GHS";
     const [amount, setAmount] = useState(0); // Remember, set in kobo!
     const [email, setEmail] = useState(user.email);

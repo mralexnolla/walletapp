@@ -4,7 +4,7 @@ import { Tabs, Table,  message } from "antd";
 import PageTitle from '../../components/PageTitle'
 import { useState, useEffect } from "react";
 import RequestModal from './RequestModal'
-import { GetRequest } from '../../apicalls/requests'
+import { GetRequest, UpdateRequestStatus } from '../../apicalls/requests'
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/loadersSlice";
 import moment from 'moment'
@@ -18,6 +18,59 @@ const Requests = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user.user);
+  
+  //get all the sent and recive request data 
+
+  const getRequestData = async () => {
+    try {
+      dispatch(showLoading);
+
+      const senderEmail = user.email;
+      const receiverEmail = user.email;
+
+      const response = await GetRequest(senderEmail, receiverEmail);
+
+      const txnsData = response.data.data;
+
+      const sendData = txnsData.filter((item) => item.sender === user.email);
+      const receivedData = txnsData.filter(
+        (item) => item.receiver === user.email
+      );
+      if (response.data.success) {
+        setData({
+          sent: sendData,
+          received: receivedData,
+        });
+      }
+      dispatch(hideLoading);
+    } catch (error) {
+      dispatch(hideLoading);
+      message.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getRequestData();
+  }, []);
+  
+  //calling the API to update the request status
+
+  const updateStatus = async (record, status) => {
+     try {
+      dispatch(showLoading)
+      const response = await UpdateRequestStatus({...record,status})
+      dispatch(hideLoading)
+      if(response.data.success){
+        message.success(response.message)
+        getRequestData();
+      }else{
+        //message.error(response.message)
+      }
+     } catch (error) {
+       dispatch(hideLoading)
+       message.error(error.message)
+     }
+  }
 
   const columns = [
     {
@@ -51,42 +104,32 @@ const Requests = () => {
     {
       title: "Description",
       dataIndex: "description",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) =>{
+        if(record.status === 'pending' && record.receiver === user.email){
+          return (
+            <div className="flex gap-1">
+              <h1 className="text-sm underline"
+              onClick={() => updateStatus(record, "rejected")}
+              >
+              Reject
+              </h1>
+              <h1 className="text-sm underline"
+              onClick={() => updateStatus(record, "accepted")}
+              >
+              Accept
+              </h1>
+            </div>
+          );
+        }
+      }
     }
   ];
 
-  const getRequestData = async () => {
-    try {
-      dispatch(showLoading);
-
-      const senderEmail = user.email;
-      const receiverEmail = user.email;
-
-      const response = await GetRequest(
-        senderEmail,
-        receiverEmail
-      );
-
-      const txnsData = response.data.data;
-      
-      const sendData = txnsData.filter((item) => item.sender === user.email)
-      const receivedData = txnsData.filter((item) => item.receiver === user.email)
-      if (response.data.success) {
-        setData({
-          sent: sendData,
-          received: receivedData,
-        });
-      }
-      dispatch(hideLoading);
-    } catch (error) {
-      dispatch(hideLoading);
-      message.error(error.message);
-    }
-  };
   
-
-  useEffect(() => {
-    getRequestData();
-  }, []);
 
 
   return (
@@ -101,19 +144,33 @@ const Requests = () => {
         </button>
       </div>
 
-      <Tabs defaultActiveKey="1">
-        <TabPane tab="Send Requests" key="1">
+      <Tabs 
+         defaultActiveKey="1"
+         items={[
           {
-              data.sent && data.sent.length > 0 ? (<Table dataSource={data.sent} columns={columns} />): (<p>No data found</p>)   
-          }
-        </TabPane>
-        <TabPane tab="Received Requests" key="2">
+            key: '1',
+            label: 'Send Requests',
+            children: (
+              <div>
+                {
+                  data.sent && data.sent.length > 0 ? (<Table dataSource={data.sent} columns={columns} />): (<p>Loading...</p>)   
+                }
+              </div>
+            ),
+          },
           {
-            data.received && data.received.length > 0 ? (<Table dataSource={data.received} columns={columns} />): (<p>No data found</p>)
+            key: '2',
+            label: "Received Requests",
+            children: (
+              <div>
+                {
+                  data.received && data.received.length > 0 ? (<Table dataSource={data.received} columns={columns} />): (<p>Loading...</p>)
+                }
+              </div>
+            )
           }
-          
-        </TabPane>
-      </Tabs>
+         ]}
+      />
 
       {showNewRequestModal && (
         <RequestModal
