@@ -5,12 +5,15 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+
 function DefaultLayout({ children }) {
   const [collapsed, setCollapsed] = useState(false);
 
   const navigate = useNavigate();
 
   const user = useSelector((store) => store.user.user);
+  const pendingCount = useSelector((store) => store.requestCount.requestCount);
+  console.log(pendingCount);
 
   const userMenu = [
     {
@@ -127,7 +130,7 @@ function DefaultLayout({ children }) {
               ></i>
             )}
             {!collapsed && (
-              <i 
+              <i
                 className="ri-close-line"
                 onClick={() => setCollapsed(true)}
               ></i>
@@ -147,6 +150,8 @@ function DefaultLayout({ children }) {
 
         {/** Body Content */}
         <div className="content"> {children}</div>
+
+       
       </div>
     </div>
   );

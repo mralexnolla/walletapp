@@ -122,7 +122,7 @@ const RequestModal = ({ showReqModal, setShowReqModal, reloadData }) => {
             <InputNumber style={{ width: "150px" }} min={0} />
           </Form.Item>
 
-          <Form.Item label="Description" name="description">
+          <Form.Item label="Description" name="description" rules={[{required: true}]}>
             <Input.TextArea />
           </Form.Item>
 
