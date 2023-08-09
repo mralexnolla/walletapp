@@ -2,6 +2,8 @@ import express from "express";
 import { Request } from "../models/requestsModel.js";
 import { User } from "../models/userModel.js";
 import { decrypt } from "../middlewares/authMiddleware.js";
+import { Transaction } from "../models/transactionModel.js";
+
 
 const router = express.Router();
 
@@ -40,6 +42,8 @@ router.post("/get-requests", decrypt, async (req, res) => {
 // send a request to another user
 router.post("/send-request", decrypt, async (req, res) => {
   try {
+    if(!req.body.description) return res.json({message: `Descrition cannot be empty`})
+
     const { receiver, amount, reference, description } = req.body;
     const request = new Request({
       sender: req.body.sender,
@@ -92,13 +96,27 @@ router.post("/update-request-status", decrypt, async (req, res) => {
       status: req.body.status,
     });
 
+    //create and save transaction
+    const transaction = new Transaction({
+      sender: req.body.receiver,
+      receiver: req.body.sender,
+      amount: req.body.amount,
+      description: req.body.description,
+      reference: req.body.reference,
+      status: "success",
+    });
+    await transaction.save();
+    
+    console.log("transaction saved")
+    
+    console.log("sending response")
+
     res.send({
       data: null,
       message: "Request Status updated successfully",
       success: true,
     });
   } catch (error) {
-    console.log(error);
     res.send({
       data: error,
       message: "Request Status failed",

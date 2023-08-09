@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import { Tabs, Table,  message } from "antd";
@@ -7,6 +8,7 @@ import RequestModal from './RequestModal'
 import { GetRequest, UpdateRequestStatus } from '../../apicalls/requests'
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/loadersSlice";
+import { pendingRequestCount } from '../../redux/transactionSlice';
 import moment from 'moment'
 
 
@@ -18,6 +20,7 @@ const Requests = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user.user);
+  
   
   //get all the sent and recive request data 
 
@@ -33,14 +36,16 @@ const Requests = () => {
       const txnsData = response.data.data;
 
       const sendData = txnsData.filter((item) => item.sender === user.email);
-      const receivedData = txnsData.filter(
-        (item) => item.receiver === user.email
-      );
+      const receivedData = txnsData.filter((item) => item.receiver === user.email);
+      
       if (response.data.success) {
         setData({
           sent: sendData,
           received: receivedData,
         });
+
+        const pendingRequest = receivedData.filter((item) => item.status === 'pending')
+        dispatch(pendingRequestCount(pendingRequest.length));
       }
       dispatch(hideLoading);
     } catch (error) {
@@ -61,14 +66,14 @@ const Requests = () => {
       const response = await UpdateRequestStatus({...record,status})
       dispatch(hideLoading)
       if(response.data.success){
-        message.success(response.message)
+        message.success(response.data.message)
         getRequestData();
       }else{
         //message.error(response.message)
       }
      } catch (error) {
        dispatch(hideLoading)
-       message.error(error.message)
+       message.error(null)
      }
   }
 

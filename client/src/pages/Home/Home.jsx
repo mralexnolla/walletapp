@@ -5,7 +5,7 @@ import PageTitle from "../../components/PageTitle"
 const Home = () => {
     const dispatch = useDispatch()
     const user = useSelector(store => store.user.user)
-    console.log(user)
+    //console.log(user)
   return (
     <div>
       <PageTitle title={`Welcome, ${user.firstName}`} />

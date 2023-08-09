@@ -8,6 +8,7 @@
     --button: #bae0ff
 }
 
+
 /* background colors */
 .bg-primary {
     background-color: var(--primary) !important;
@@ -20,6 +21,8 @@
 .bg-tertiary {
     background-color: var(--tertiary) !important;
 }
+
+
 
 /* text colors */
 .text-primary {
