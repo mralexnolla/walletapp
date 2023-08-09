@@ -10,6 +10,8 @@ import { showLoading, hideLoading } from "../../redux/loadersSlice";
 import { useEffect } from "react";
 import moment from "moment"
 import DepositeModal from "./DepositeModal";
+import { setReloadUser } from "../../redux/userSlice";
+
 
 const Transactions = () => {
 
@@ -18,6 +20,9 @@ const Transactions = () => {
 
   const dispatch = useDispatch()
   const user = useSelector(store => store.user.user)
+  const loaduser = useSelector((store) => store.user.reloadUser);
+
+ 
 
   const [showDepositeModal, setShowDepositeModal] = useState(false)
   
@@ -79,18 +84,23 @@ const Transactions = () => {
       const txnsData = response.data.data
       if (response.data.success) {
         setData(txnsData);
+        
       }
       dispatch(hideLoading)
+      dispatch(setReloadUser(false))
     } catch (error) {
       dispatch(hideLoading)
       message.error(error.message)
     }
    
   }
-
   useEffect(() => {
     getData() 
   },[])
+
+  if(loaduser){
+    getData()
+  }
 
   
 

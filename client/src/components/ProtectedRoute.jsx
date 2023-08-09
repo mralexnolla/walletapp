@@ -6,15 +6,17 @@ import { message } from "antd";
 import { GetUserInfo } from "../apicalls/users";
 import {useNavigate} from "react-router-dom"
 import {useSelector, useDispatch} from "react-redux"
-import { setUser } from "../redux/userSlice";
+import { setUser} from "../redux/userSlice";
 import { showLoading, hideLoading } from "../redux/loadersSlice";
 import DefaultLayout from "./DefaultLayout";
+
 
 function ProtectedRoute(props) {
   
   const dispatch = useDispatch()
   const user = useSelector((store) => store.user.user)
-
+  
+  
    const navigate = useNavigate()
 
    const getData = async () => {
@@ -26,6 +28,7 @@ function ProtectedRoute(props) {
          dispatch(setUser(response.data));
        }else{
         message.error(response.message)
+        navigate("/login");
        }
      } catch (error) {
       dispatch(hideLoading())

@@ -10,6 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/loadersSlice";
 import { pendingRequestCount } from '../../redux/transactionSlice';
 import moment from 'moment'
+import { setReloadUser } from '../../redux/userSlice';
+
+
+
 
 
 const {TabPane} = Tabs
@@ -17,11 +21,13 @@ const {TabPane} = Tabs
 const Requests = () => {
   const [data, setData] = useState([])
   const [showNewRequestModal, setShowNewRequestModal] = useState(false)
-
+  
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user.user);
+  const loaduser = useSelector((store) => store.user.reloadUser);
+
   
-  
+
   //get all the sent and recive request data 
 
   const getRequestData = async () => {
@@ -46,18 +52,26 @@ const Requests = () => {
 
         const pendingRequest = receivedData.filter((item) => item.status === 'pending')
         dispatch(pendingRequestCount(pendingRequest.length));
+        
       }
       dispatch(hideLoading);
+      dispatch(setReloadUser(false))
     } catch (error) {
       dispatch(hideLoading);
       message.error(error.message);
     }
   };
 
+
   useEffect(() => {
     getRequestData();
   }, []);
-  
+
+
+   if (loaduser) {
+     getRequestData();
+   }
+
   //calling the API to update the request status
 
   const updateStatus = async (record, status) => {
@@ -66,8 +80,10 @@ const Requests = () => {
       const response = await UpdateRequestStatus({...record,status})
       dispatch(hideLoading)
       if(response.data.success){
+        console.log(response.data.success);
         message.success(response.data.message)
         getRequestData();
+        dispatch(setReloadUser(true))
       }else{
         //message.error(response.message)
       }

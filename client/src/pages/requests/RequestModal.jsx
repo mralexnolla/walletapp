@@ -8,16 +8,17 @@ import { showLoading, hideLoading } from "../../redux/loadersSlice";
 import {VerifyAccountApiCall,TransferFundsApiCall,} from "../../apicalls/transactions";
 import { sendRequestReference } from "../../referengenerator/randomgenerator";
 import { SendRequest } from "../../apicalls/requests";
+import { setReloadUser } from "../../redux/userSlice";
 
-const RequestModal = ({ showReqModal, setShowReqModal, reloadData }) => {
+
+
+const RequestModal = ({ showReqModal, setShowReqModal }) => {
   const [isVerified, setIsVerified] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [form] = Form.useForm();
 
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user.user);
-
-  
 
   const verifyAccount = async () => {
     try {
@@ -45,8 +46,10 @@ const RequestModal = ({ showReqModal, setShowReqModal, reloadData }) => {
     setShowReqModal(false);
   };
 
+  
+
   const onFinish = async (values) => {
-    console.log(values);
+    //console.log(values);
     try {
       dispatch(showLoading);
       const payload = {
@@ -61,6 +64,7 @@ const RequestModal = ({ showReqModal, setShowReqModal, reloadData }) => {
       if (response.data.success) {
         setShowReqModal(false);
         message.success(response.data.message);
+        dispatch(setReloadUser(true));
       } else {
         message.error(response.data.message);
       }
@@ -71,7 +75,12 @@ const RequestModal = ({ showReqModal, setShowReqModal, reloadData }) => {
       message.error(error.message);
       dispatch(hideLoading);
     }
+
+    //window.location = '/requests'
   };
+
+ 
+  
 
   return (
     <div>

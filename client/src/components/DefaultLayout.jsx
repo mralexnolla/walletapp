@@ -15,7 +15,6 @@ function DefaultLayout({ children }) {
 
   const user = useSelector((store) => store.user.user);
   const pendingCount = useSelector((store) => store.requestCount.requestCount);
-  console.log(pendingCount);
 
   const userMenu = [
     {
@@ -152,28 +151,28 @@ function DefaultLayout({ children }) {
 
         {/** Body Content */}
         <div className="content"> {children}</div>
-        
+
         <FloatButton.Group
-         trigger="hover"
-         type="primary"
-         style={{
-          right: 94,
-         }}
-         icon={<VerticalAlignTopOutlined />}
+          trigger="hover"
+          type="primary"
+          style={{
+            right: 94,
+          }}
+          icon={<VerticalAlignTopOutlined />}
         >
-         <FloatButton
-         tooltip={<div>Pending Request</div>}
-         badge={{
-          count: pendingCount,
-          color: "green",
-          onClick: () => navigate("/requests"),
-         }}
-         />
-         <FloatButton
-         icon={<CommentOutlined/>}
-         />
+          <FloatButton
+            tooltip={<div>Pending Request</div>}
+            badge={{
+              count: pendingCount,
+              color: "green",
+              onClick: () => navigate("/requests"),
+            }}
+          />
+          <FloatButton
+            tooltip={<div>Comming soon</div>}
+            icon={<CommentOutlined />}
+          />
         </FloatButton.Group>
-       
       </div>
     </div>
   );

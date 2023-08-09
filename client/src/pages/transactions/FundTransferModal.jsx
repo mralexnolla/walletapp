@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import { showLoading, hideLoading } from "../../redux/loadersSlice";
 import { VerifyAccountApiCall, TransferFundsApiCall } from "../../apicalls/transactions";
 import {generateReference} from "../../referengenerator/randomgenerator"
+import { setReloadUser } from "../../redux/userSlice";
 
 const FundTransferModal = ({ showFtModal, setShowFtModal, reloadData }) => {
 
@@ -17,8 +18,10 @@ const FundTransferModal = ({ showFtModal, setShowFtModal, reloadData }) => {
     
     const dispatch = useDispatch()
     const user = useSelector(store => store.user.user)
+
+   
     
-    console.log(user)
+    //console.log(user)
     
 
     const verifyAccount = async () => {
@@ -46,7 +49,7 @@ const FundTransferModal = ({ showFtModal, setShowFtModal, reloadData }) => {
     }
 
     const onFinish = async (values) => {
-      console.log(values)
+      //console.log(values)
       try {
         dispatch(showLoading)
         const payload = {
@@ -62,16 +65,18 @@ const FundTransferModal = ({ showFtModal, setShowFtModal, reloadData }) => {
         if(response.data.success){
           setShowFtModal(false)
           message.success(response.data.message);
+          dispatch(setReloadUser(true));
         }else{
           message.error(response.data.message);
-        } 
-
+        }
         dispatch(hideLoading)
       } catch (error) {
          console.log("Error object:", error);
         message.error(error.message);
         dispatch(hideLoading)
       }
+
+      
     }
     
 

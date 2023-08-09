@@ -27,7 +27,8 @@ router.post("/get-requests", decrypt, async (req, res) => {
       $or: [{ sender: req.body.sender }, { receiver: req.body.receiver }],
     })
       .populate("sender")
-      .populate("receiver");
+      .populate("receiver")
+      .sort({ createdAt: -1 });
 
     res.send({
       data: requests,

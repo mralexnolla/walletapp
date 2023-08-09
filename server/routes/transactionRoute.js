@@ -150,6 +150,7 @@ router.post("/get-txn-by-users", decrypt, async (req, res) => {
     const transactions = await Transaction.find({
       $or: [{ sender: req.body.sender }, { receiver: req.body.receiver }],
     })
+    .sort({createdAt: -1})
 
     res.send({
       message: "Transactions fetched",
