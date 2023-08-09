@@ -4,6 +4,8 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { FloatButton } from "antd";
+import { CommentOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
 
 
 function DefaultLayout({ children }) {
@@ -150,7 +152,27 @@ function DefaultLayout({ children }) {
 
         {/** Body Content */}
         <div className="content"> {children}</div>
-
+        
+        <FloatButton.Group
+         trigger="hover"
+         type="primary"
+         style={{
+          right: 94,
+         }}
+         icon={<VerticalAlignTopOutlined />}
+        >
+         <FloatButton
+         tooltip={<div>Pending Request</div>}
+         badge={{
+          count: pendingCount,
+          color: "green",
+          onClick: () => navigate("/requests"),
+         }}
+         />
+         <FloatButton
+         icon={<CommentOutlined/>}
+         />
+        </FloatButton.Group>
        
       </div>
     </div>
