@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
+import { message } from "antd";
+
 import {useDispatch,useSelector} from "react-redux"
 import PageTitle from "../../components/PageTitle"
 
 const Home = () => {
     const dispatch = useDispatch()
     const user = useSelector(store => store.user.user)
-    //console.log(user)
   return (
     <div>
       <PageTitle title={`Welcome, ${user.firstName}`} />

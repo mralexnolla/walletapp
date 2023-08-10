@@ -116,11 +116,11 @@ const RequestModal = ({ showReqModal, setShowReqModal }) => {
             initialValue={5}
             rules={[
               { required: true, message: "Please enter the amount" },
-              {
-                type: "number",
-                max: user.avlbal,
-                message: "Insuficient Balance",
-              },
+              // {
+              //   type: "number",
+              //   max: user.avlbal,
+              //   message: "Insuficient Balance",
+              // },
               {
                 type: "number",
                 min: 5,
@@ -139,9 +139,9 @@ const RequestModal = ({ showReqModal, setShowReqModal }) => {
             <div className="flex justify-end gap-1">
               <button className="primary-outlined-btn">Cancel</button>
 
-              {form.getFieldValue("amount") < user.avlbal && (
+             
                 <button className="primary-contained-btn">Request</button>
-              )}
+             
             </div>
           )}
         </Form>

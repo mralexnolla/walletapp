@@ -73,15 +73,33 @@ router.post("/send-request", decrypt, async (req, res) => {
   }
 });
 
+
+
 //update request status
 router.post("/update-request-status", decrypt, async (req, res) => {
   try {
+    const user = await User.findOne({email: req.body.receiver});
     const sendId = await getUserIdByEmail(req.body.sender);
     const receiverId = await getUserIdByEmail(req.body.receiver);
+
+    let insufficientFunds = false
+
+    if (req.body.status === "accepted" && req.body.amount > user.avlbal - 5) {
+      insufficientFunds = true;
+    }
+
+    if(insufficientFunds){
+      return res.send({
+        message: "Insufficient Funds",
+        success: false
+      })
+    }
+
 
     if (req.body.status === "accepted") {
       //update the balance of both users
       //deduct the amount from the sender
+
       await User.findByIdAndUpdate(sendId, {
         $inc: { avlbal: req.body.amount },
       });
@@ -107,10 +125,6 @@ router.post("/update-request-status", decrypt, async (req, res) => {
       status: "success",
     });
     await transaction.save();
-    
-    console.log("transaction saved")
-    
-    console.log("sending response")
 
     res.send({
       data: null,

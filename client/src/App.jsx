@@ -15,6 +15,7 @@ import {useSelector} from 'react-redux'
 import Transactions from "./pages/transactions/Transactions"
 import Requests from "./pages/requests/Requests"
 import Profile from "./pages/profile/Profile"
+import Users from "./pages/users/Users"
 
 
 function App() {
@@ -50,9 +51,9 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route 
+        <Route
           path="/transactions"
-          element = {
+          element={
             <ProtectedRoute>
               <Transactions />
             </ProtectedRoute>
@@ -60,17 +61,25 @@ function App() {
         />
         <Route
           path="/requests"
-          element = {
+          element={
             <ProtectedRoute>
-              <Requests/>
+              <Requests />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <Users />
             </ProtectedRoute>
           }
         />
         <Route
           path="/profile"
-          element = {
+          element={
             <ProtectedRoute>
-              <Profile/>
+              <Profile />
             </ProtectedRoute>
           }
         />

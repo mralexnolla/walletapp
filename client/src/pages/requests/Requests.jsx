@@ -76,7 +76,11 @@ const Requests = () => {
 
   const updateStatus = async (record, status) => {
      try {
-      dispatch(showLoading)
+
+      // if(status === 'accepted' && record.amount > user.avlbal-5){
+      //      return message.error("Insuficient fundsssss")
+      // }else{
+        dispatch(showLoading)
       const response = await UpdateRequestStatus({...record,status})
       dispatch(hideLoading)
       if(response.data.success){
@@ -85,8 +89,10 @@ const Requests = () => {
         getRequestData();
         dispatch(setReloadUser(true))
       }else{
-        //message.error(response.message)
+        message.error(response.data.message);
       }
+      //}
+      
      } catch (error) {
        dispatch(hideLoading)
        message.error(null)

@@ -7,6 +7,18 @@ import { decrypt } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
+//find user id by email
+
+const getUserIdByEmail = async (email) => {
+  try {
+    const user = await User.findOne({ email });
+    return user ? user._id : "";
+  } catch (error) {
+    console.error("Error fetching user by email:", error);
+    return "";
+  }
+};
+
 //register user
 router.post("/register", async (req, res) => {
   try {
@@ -56,7 +68,7 @@ router.post("/register", async (req, res) => {
     const idtypeExist = await User.findOne({ idType: req.body.idType });
     const IDnumberExist = await User.findOne({ idNumber: req.body.idNumber });
     
-    console.log(idtypeExist);
+    //console.log(idtypeExist);
 
     if (idtypeExist && IDnumberExist) {
       return res.send({
@@ -122,6 +134,14 @@ router.post("/login", async (req, res) => {
       });
     }
 
+    //check if user is verified
+    if(!userExist.isVerified){
+      return res.send({
+        message: "User is not verified yet or has been suspended",
+        success: false
+      })
+    }
+
     //generate token
     const token = jwt.sign({ userId: userExist._id }, process.env.SECRET, {
       expiresIn: "1d",
@@ -147,6 +167,41 @@ router.post("/get-user-info",decrypt, async (req, res) => {
     res.send({
       message: "User info fetched successfully",
       data: user,
+      success: true,
+    });
+  } catch (error) {
+    res.send({
+      message: error.message,
+      success: false,
+    });
+  }
+});
+
+//get all users 
+router.get("/get-all-users", decrypt, async (req, res) => {
+  try {
+    const users = await User.find()
+    res.send({
+      data: users,
+      message: "Users fetched successfully",
+      success: true
+    });
+  } catch (error) {
+    res.send({
+      message: error.message,
+      success: false
+    })
+  }
+});
+
+//update user verified status
+router.post("/update-users-verified-status", decrypt, async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.body.selectedUser, {
+      isVerified: req.body.isVerified,
+    })
+    res.send({
+      message: "User verified successfully",
       success: true,
     });
   } catch (error) {

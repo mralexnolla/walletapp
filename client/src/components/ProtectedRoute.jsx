@@ -11,10 +11,12 @@ import { showLoading, hideLoading } from "../redux/loadersSlice";
 import DefaultLayout from "./DefaultLayout";
 
 
+
 function ProtectedRoute(props) {
   
   const dispatch = useDispatch()
   const user = useSelector((store) => store.user.user)
+  
   
   
    const navigate = useNavigate()
@@ -48,6 +50,8 @@ function ProtectedRoute(props) {
     }
      
    }, []);
+
+   
 
   return (
    user && <div>
