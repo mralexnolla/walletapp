@@ -1,30 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
-
-* {
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
-/* body {
-  background-color: rgba(99, 160, 200, 0.8);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: white;
-} */
 .mircophone-container {
   display: flex;
   justify-content: start;
    align-items: start; 
-  /* width: 100vw; */
-  /* height: 50vh; */
+  width: 100vw;
+  height: 50vh;
 }
 .microphone-icon-container {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-image: linear-gradient(128deg, #ffffff, #647c88);
   padding: 20px;
@@ -36,7 +19,7 @@
   content: "";
   width: 100px;
   height: 100px;
-  background-color: hsla(196, 65%, 75%, 0.511);
+  background-color: #ffffff81;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -60,22 +43,15 @@
 }
 .microphone-status {
   position:relative;
-  top: 20px;
+  top: 10%;
   font-size: 22px;
   margin-right: 20px;
   min-width: 215px;
 }
-
-.stopbtn{
-    position: relative;
-    top: 20px;
-    border-radius: 10%
-}
-
-/* .btn {
+.btn {
   position: relative;
-  top: 11%;
-  right: 8%; 
+  top: 20%;
+  right: 17%;
   border: none;
   padding: 5px 10px;
   margin-right: 10px;
@@ -84,8 +60,7 @@
   font-size: 15px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 5px #ffffff1a;
-} */
-
+}
 .microphone-result-container {
   text-align: center;
   height: 30vh;
@@ -99,18 +74,16 @@
 }
 .microphone-result-text {
   position: relative;
-  top: 20%; 
+  bottom: 80%;
   margin-bottom: 30px;
-  font-size: 25px;
   width: 70vw;
   overflow-y: auto;
 }
-.resetbtn {
-  position: relative;
-  top: 20px;
-  /* right: 270px; */
-  border-radius: 10%;
-  margin-left: 2px
+.microphone-reset {
+  border: 1px solid #fff;
+  background: none;
+  color: black;
+  width: fit-content;
 }
 
 .title {
@@ -121,14 +94,3 @@
 .title h3 {
   padding-top: 10px;
 }
-
-.balance .pending {
-    color: rgb(23, 102, 23);
-}
-
-.pending {
-    color: rgb(23, 102, 23);
-}
-
-
-

@@ -16,6 +16,7 @@ import Transactions from "./pages/transactions/Transactions"
 import Requests from "./pages/requests/Requests"
 import Profile from "./pages/profile/Profile"
 import Users from "./pages/users/Users"
+import Speachrec from "./pages/voice/Speachrec"
 
 
 function App() {
@@ -80,6 +81,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/voice"
+          element={
+            <ProtectedRoute>
+              <Speachrec />
             </ProtectedRoute>
           }
         />

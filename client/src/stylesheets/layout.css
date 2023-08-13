@@ -1,9 +1,9 @@
 .layout {
     display: flex;
     padding: 15px;
-    height: 100vh;
+    height: 90vh;
     gap: 15px;
-    width: 100%;
+    width: 98%;
 }
 
 .sidebar {
@@ -52,6 +52,7 @@
     padding: 15px;
     border-radius: 3px;
     width: 97%;
+    flex-shrink: 0;
 }
 
 .content {

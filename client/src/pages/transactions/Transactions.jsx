@@ -116,7 +116,7 @@ const Transactions = () => {
             className="primary-outlined-btn"
             onClick={() => setShowDepositeModal(true)}
           >
-            Deposite
+            Deposit
           </div>
           <div
             className="primary-contained-btn"

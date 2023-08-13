@@ -13,9 +13,6 @@ import moment from 'moment'
 import { setReloadUser } from '../../redux/userSlice';
 
 
-
-
-
 const {TabPane} = Tabs
 
 const Requests = () => {
@@ -50,8 +47,8 @@ const Requests = () => {
           received: receivedData,
         });
 
-        const pendingRequest = receivedData.filter((item) => item.status === 'pending')
-        dispatch(pendingRequestCount(pendingRequest.length));
+        // const pendingRequest = receivedData.filter((item) => item.status === 'pending')
+        // dispatch(pendingRequestCount(pendingRequest.length));
         
       }
       dispatch(hideLoading);

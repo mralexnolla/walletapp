@@ -1,11 +1,14 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/prop-types */
 
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { FloatButton } from "antd";
+import { FloatButton, message } from "antd";
 import { CommentOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
+import {GetRequest} from "../apicalls/requests"
+import { pendingRequestCount } from "../redux/transactionSlice";
+import { setReloadUser } from "../redux/userSlice";
 
 
 function DefaultLayout({ children }) {
@@ -13,8 +16,44 @@ function DefaultLayout({ children }) {
 
   const navigate = useNavigate();
 
+   const getRequestCount = async () => {
+     try {
+       const senderEmail = user.email;
+       const receiverEmail = user.email;
+
+       const response = await GetRequest(senderEmail, receiverEmail);
+       const txnsData = response.data.data;
+
+       const receivedData = txnsData.filter(
+         (item) => item.receiver === user.email
+       );
+
+       if (response.data.success) {
+         const pendingRequest = receivedData.filter(
+           (item) => item.status === "pending"
+         );
+         dispatch(pendingRequestCount(pendingRequest.length));
+       }
+       dispatch(setReloadUser(false));
+     } catch (error) {
+       message.error(error.message);
+     }
+   };
+
+  const dispatch = useDispatch()
   const user = useSelector((store) => store.user.user);
   const pendingCount = useSelector((store) => store.requestCount.requestCount);
+  const loaduser = useSelector((store) => store.user.reloadUser);
+
+  useEffect(() => {
+    getRequestCount();
+  }, []);
+
+  if (loaduser) {
+    getRequestCount();
+  }
+
+
 
   const userMenu = [
     {
@@ -40,6 +79,12 @@ function DefaultLayout({ children }) {
       icon: <i className="ri-user-3-line"></i>,
       onClick: () => navigate("/profile"),
       path: "/profile",
+    },
+    {
+      title: "Voice",
+      icon: <i className="ri-voice-recognition-line"></i>,
+      onClick: () => navigate("/voice"),
+      path: "/voice",
     },
     {
       title: "Logout",
@@ -82,6 +127,12 @@ function DefaultLayout({ children }) {
       icon: <i className="ri-user-3-line"></i>,
       onClick: () => navigate("/profile"),
       path: "/profile",
+    },
+    {
+      title: "Voice",
+      icon: <i className="ri-voice-recognition-line"></i>,
+      onClick: () => navigate("/voice"),
+      path: "/voice",
     },
     {
       title: "Logout",
