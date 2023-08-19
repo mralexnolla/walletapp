@@ -44,6 +44,10 @@
     flex-direction: row;
 }
 
+.justify-start {
+    justify-content: start;
+}
+
 .justify-center {
     justify-content: center;
 }
@@ -107,6 +111,14 @@
 }
 .m-5 {
     margin: 50px
+}
+
+.mr-1 {
+    margin-right: 10px;
+}
+
+.mr-2 {
+    margin-right: 20px;
 }
 
 .p-1 {

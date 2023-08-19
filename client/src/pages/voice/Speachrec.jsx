@@ -37,19 +37,20 @@ const Speachrec = () => {
         "my account balance",
         "give me my account balance",
       ],
-      callback: () =>
-        setBalance(user.avlbal),
+      callback: () => setBalance(user.avlbal),
     },
     {
       command: [
         "pendings",
         "pending",
+        "my pendings",
+        "my pending request",
+        "my pending requests",
         "pending requests",
         "How many pending requests do i have",
         "show me my pending requests",
       ],
-      callback: () =>
-        setPendings(pendingRequests),
+      callback: () => setPendings(pendingRequests),
     },
     {
       command: "thank you",
@@ -158,8 +159,7 @@ const Speachrec = () => {
                     <h1>You have no pending requests</h1>
                   ) : (
                     <h1>
-                      You have <span className="pending">{pendings}</span>
-                      request
+                      You have <span className="pending">{pendings}</span> request
                     </h1>
                   )}
                 </div>

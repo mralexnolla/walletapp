@@ -6,6 +6,11 @@ import cors from "cors";
 import { userRouter } from "./routes/userRoute.js";
 import { transactionRouter } from "./routes/transactionRoute.js";
 import { requestRouter } from "./routes/requestsRoute.js";
+import { uploadRouter } from "./routes/uploadRoute.js";
+
+
+
+
 
 dotenv.config();
 
@@ -14,10 +19,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
+
+
+
 //routes
 app.use("/api/users", userRouter);
 app.use("/api/transactions", transactionRouter);
 app.use("/api/requests", requestRouter)
+app.use("/api/uploads", uploadRouter)
+
+
 
 //connect to the DB
 mongoose
