@@ -148,9 +148,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="w-50 flex flex-col">
-          
-          <div className="card p-2 mt-3 w-75 br-3 w-75 flex justify-end">
-            
+          <div className=" p-2 mt-3 w-75 br-3 w-75 flex justify-end">
             {userImage === null
               ? ""
               : userImage.map((item) => {
@@ -168,7 +166,7 @@ const Profile = () => {
                 })}
           </div>
 
-          <div className="flex justify-center mt-1">
+          <div className="flex justify-start mt-1">
             <form onSubmit={handleSubmit}>
               <div className="flex">
                 <input
@@ -176,11 +174,16 @@ const Profile = () => {
                   name="imageFile"
                   accept="image/*"
                   onChange={(e) => setUploadFile(e.target.files[0])}
+                  className="primary-outlined-btn"
                 />
               </div>
 
               <div className="flex mt-1">
-                <input type="submit" value="Upload" />
+                <input
+                  type="submit"
+                  value="Upload"
+                  className="primary-contained-btn"
+                />
               </div>
             </form>
           </div>
