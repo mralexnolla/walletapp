@@ -87,6 +87,12 @@ function DefaultLayout({ children }) {
       path: "/voice",
     },
     {
+      title: "Reports",
+      icon: <i className="ri-folder-chart-line"></i>,
+      onClick: () => navigate("/report"),
+      path: "/report",
+    },
+    {
       title: "Logout",
       icon: <i className="ri-logout-box-line"></i>,
       onClick: () => {
@@ -133,6 +139,12 @@ function DefaultLayout({ children }) {
       icon: <i className="ri-voice-recognition-line"></i>,
       onClick: () => navigate("/voice"),
       path: "/voice",
+    },
+    {
+      title: "Reports",
+      icon: <i className="ri-folder-chart-line"></i>,
+      onClick: () => navigate("/report"),
+      path: "/report",
     },
     {
       title: "Logout",

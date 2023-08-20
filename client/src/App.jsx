@@ -17,6 +17,7 @@ import Requests from "./pages/requests/Requests"
 import Profile from "./pages/profile/Profile"
 import Users from "./pages/users/Users"
 import Speachrec from "./pages/voice/Speachrec"
+import Reports from "./pages/reports/Reports"
 
 
 function App() {
@@ -89,6 +90,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Speachrec />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/report"
+          element={
+            <ProtectedRoute>
+              <Reports />
             </ProtectedRoute>
           }
         />
