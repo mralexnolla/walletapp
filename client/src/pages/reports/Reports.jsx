@@ -106,7 +106,7 @@ const Reports = () => {
           transactionDate <= endDate.endOf("day")
         );
       });
-      console.log(filteredData);
+      //console.log(filteredData);
     }
   } else if (category === "Reference") {
     if (searchText) {

@@ -94,6 +94,14 @@ const Transactions = () => {
     }
    
   }
+  
+  /** getting to display only the current days transactions  */
+  const dailyData = data.filter(txn => {
+    let txnDate = moment(txn.createdAt)
+    const currentDate = moment()
+    return txnDate.isSame(currentDate, 'day')
+  })
+
   useEffect(() => {
     getData() 
   },[])
@@ -128,7 +136,7 @@ const Transactions = () => {
       </div>
 
       <Table
-        dataSource={data}
+        dataSource={dailyData}
         columns={columns}
         className="mt-2 table"
         rowKey="_id"
