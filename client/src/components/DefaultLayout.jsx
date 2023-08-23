@@ -6,54 +6,139 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FloatButton, message } from "antd";
 import { CommentOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
-import {GetRequest} from "../apicalls/requests"
-import { pendingRequestCount } from "../redux/transactionSlice";
-import { setReloadUser } from "../redux/userSlice";
+import { GetRequest } from "../apicalls/requests";
+import {
+  pendingRequestCount,
+  sumIncome,
+  sumExpense,
+  numberOfDeposites,
+  numberOfDebitTransfer,
+  numberOfCreditTransfer,
+  numberOfSendRequest,
+  numberOfReceivedRequest,
+} from "../redux/transactionSlice";
+import { setReloadUser, getBalance } from "../redux/userSlice";
+import { GetUserTransactionsApiCall } from "../apicalls/transactions";
+import { GetUserInfo } from "../apicalls/users";
 
 
-function DefaultLayout({ children }) {
+const DefaultLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   const navigate = useNavigate();
 
-   const getRequestCount = async () => {
-     try {
-       const senderEmail = user.email;
-       const receiverEmail = user.email;
-
-       const response = await GetRequest(senderEmail, receiverEmail);
-       const txnsData = response.data.data;
-
-       const receivedData = txnsData.filter(
-         (item) => item.receiver === user.email
-       );
-
-       if (response.data.success) {
-         const pendingRequest = receivedData.filter(
-           (item) => item.status === "pending"
-         );
-         dispatch(pendingRequestCount(pendingRequest.length));
-       }
-       dispatch(setReloadUser(false));
-     } catch (error) {
-       message.error(error.message);
-     }
-   };
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.user.user);
+  
+
+
+  const getRequestCount = async () => {
+    try {
+      const senderEmail = user.email;
+      const receiverEmail = user.email;
+
+      const response = await GetRequest(senderEmail, receiverEmail);
+      const txnsData = response.data.data;
+
+      const receivedData = txnsData.filter(
+        (item) => item.receiver === user.email
+      );
+
+      if (response.data.success) {
+        const pendingRequest = receivedData.filter(
+          (item) => item.status === "pending"
+        );
+        dispatch(pendingRequestCount(pendingRequest.length));
+      }
+      dispatch(setReloadUser(false));
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const getTransactionData = async () => {
+    try {
+      const senderEmail = user.email;
+      const receiverEmail = user.email;
+
+      const response = await GetUserTransactionsApiCall(
+        senderEmail,
+        receiverEmail
+      );
+      
+      const txnData = response.data.data
+
+      //console.log(txnData)
+      
+      const incomingTxn = txnData.filter(
+        (txn) => txn.receiver === user.email && txn.sender !== "Cash Deposite"
+      );
+
+      const expenseTxn = txnData.filter((txn) => txn.sender === user.email)
+      
+      /** for the pie chart */
+      const deposites = txnData.filter((txn) => txn.sender === "Cash Deposite")
+      const receiveRequest = txnData.filter((txn) => txn.sender === user.email && txn.reference.startsWith("SR"));
+      const sendRequest = txnData.filter((txn) => txn.receiver === user.email && txn.reference.startsWith("SR"));
+      
+      if(response.data.success){
+        const sumIncomeAmount = incomingTxn.reduce((sum, txn) => sum + txn.amount, 0 )
+        const totalIncome = parseFloat(sumIncomeAmount).toFixed(2);
+        dispatch(sumIncome(totalIncome));
+        
+        const sumExpenseAmount = expenseTxn.reduce((sum, txn) => sum + txn.amount, 0)
+        const totalExpense = parseFloat(sumExpenseAmount).toFixed(2);
+        dispatch(sumExpense(totalExpense));
+
+        const numOfdeposites = deposites.length
+        dispatch(numberOfDeposites(numOfdeposites));
+
+        const numDebitTrans = expenseTxn.length
+        dispatch(numberOfDebitTransfer(numDebitTrans));
+
+        const numCreditTrans = incomingTxn.length
+        dispatch(numberOfCreditTransfer(numCreditTrans));
+
+        const numSenReq = receiveRequest.length;
+        dispatch(numberOfSendRequest(numSenReq));
+
+        const numRecReq = sendRequest.length;
+        dispatch(numberOfReceivedRequest(numRecReq));
+      }
+      dispatch(setReloadUser(false));
+
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const getUserBalace = async () => {
+    try {
+      const response = await GetUserInfo()
+      if(response.success){
+        const balance = response.data.avlbal;
+        dispatch(getBalance(balance));
+      }
+      dispatch(setReloadUser(false));
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
   const pendingCount = useSelector((store) => store.requestCount.requestCount);
   const loaduser = useSelector((store) => store.user.reloadUser);
 
   useEffect(() => {
     getRequestCount();
+    getTransactionData()
+    getUserBalace()
   }, []);
 
   if (loaduser) {
     getRequestCount();
+    getTransactionData();
+    getUserBalace()
   }
-
-
 
   const userMenu = [
     {
@@ -158,7 +243,7 @@ function DefaultLayout({ children }) {
   ];
 
   const menuToRender = user.isAdmin ? adminMenu : userMenu;
-   
+
   return (
     <div className="layout">
       {/** the side bar */}
@@ -239,6 +324,6 @@ function DefaultLayout({ children }) {
       </div>
     </div>
   );
-}
+};
 
 export default DefaultLayout;

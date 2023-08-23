@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
-  reloadUser: false
+  reloadUser: false,
+  balance:0
 };
 
 export const usersSlice = createSlice({
@@ -14,11 +15,14 @@ export const usersSlice = createSlice({
      },
      setReloadUser: (state, {payload}) => {
       state.reloadUser = payload
+     },
+     getBalance: (state, {payload}) => {
+      state.balance = payload
      }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setReloadUser } = usersSlice.actions;
+export const { setUser, setReloadUser, getBalance } = usersSlice.actions;
 
 export default usersSlice.reducer;
