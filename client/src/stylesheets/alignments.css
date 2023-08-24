@@ -6,6 +6,10 @@
 .h-50 {
     height: 50%; 
 }
+.h-25 {
+    height: 25%;
+}
+
 
 .w-screen {
     width: 100vh;

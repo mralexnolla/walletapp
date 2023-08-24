@@ -25,3 +25,28 @@ input:focus, select:focus, textarea:focus {
     border: 1px solid var(--button);
     cursor: pointer;
 }
+
+.ant-btn {
+  background-color: #fff;
+    color: var(--black);
+    /* padding: 8px 20px; */
+    text-transform: uppercase;
+    border: 1px solid var(--button);
+    cursor: pointer;
+       
+}
+
+.ant-btn-primary {
+  background-color: #fff;
+    color: var(--black);
+    /* padding: 8px 20px; */
+    text-transform: uppercase;
+    border: 1px solid var(--button);
+    cursor: pointer;
+    /* font-size: 12px; */
+    
+}
+
+.ant-modal-content {
+    width: 500px;
+}
