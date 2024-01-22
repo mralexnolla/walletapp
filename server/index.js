@@ -29,6 +29,10 @@ app.use("/api/transactions", transactionRouter);
 app.use("/api/requests", requestRouter)
 app.use("/api/uploads", uploadRouter)
 
+app.use("/", (req, res) => {
+  res.send("hello Habib")
+})
+
 
 
 //connect to the DB

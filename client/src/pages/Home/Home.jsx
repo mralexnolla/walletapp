@@ -1,31 +1,22 @@
 /* eslint-disable no-unused-vars */
 import { message } from "antd";
 
-import {useDispatch,useSelector} from "react-redux"
-import PageTitle from "../../components/PageTitle"
-
+import { useDispatch, useSelector } from "react-redux";
+import PageTitle from "../../components/PageTitle";
 
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Statistic } from "antd";
 import Piechart from "../../charts/Piechart";
 
-
-
-
-
-
-
 const Home = () => {
-    const dispatch = useDispatch()
-    const user = useSelector(store => store.user.user)
-    const incomeData = useSelector((store) => store.requestCount.income);
-    const expenseData = useSelector((store) => store.requestCount.expense)
-    const balance = useSelector(store => store.user.balance)
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.user.user);
+  const incomeData = useSelector((store) => store.requestCount.income);
+  const expenseData = useSelector((store) => store.requestCount.expense);
+  const balance = useSelector((store) => store.user.balance);
 
-    const totalIncome = incomeData;
-    const totalExpense = expenseData;
-
-    
+  const totalIncome = incomeData;
+  const totalExpense = expenseData;
 
   return (
     <div>
@@ -89,6 +80,6 @@ const Home = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Home
+export default Home;

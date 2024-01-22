@@ -94,18 +94,24 @@ const Speachrec = () => {
     {
       command: [
         "request",
+        "requests",
         "go to the my request",
         "go to request",
         "go to requests",
+        "show request",
+        "show requests"
       ],
       callback: () => navigate("/requests"),
     },
     {
       command: [
+        "transaction",
         "transactions",
         "go to the my transaction",
         "go to transaction",
         "go to transactions",
+        "show transaction",
+        "show transactions",
       ],
       callback: () => navigate("/transactions"),
     },
